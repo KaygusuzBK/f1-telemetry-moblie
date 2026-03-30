@@ -1,9 +1,16 @@
+import Constants from 'expo-constants';
 import { useEffect, useRef, useState } from 'react';
 import { NativeModules } from 'react-native';
 import dgram from 'react-native-udp';
 
-const UDP_NATIVE_ERROR =
-  'UDP native module yok (Expo Go veya prebuild eksik). UDP icin: npm run prebuild && npm run run:android / run:ios';
+const isExpoGo = Constants.appOwnership === 'expo';
+
+function nativeUnavailableHint(): string {
+  if (isExpoGo) {
+    return 'Expo Go UDP desteklemez. UDP için EAS ile development build alın veya bilgisayarda `npx expo run:android` / `run:ios` kullanın.';
+  }
+  return 'UDP modülü yok. Projede `npx expo prebuild` sonrası native build (EAS veya `expo run:*`) gerekir.';
+}
 
 function isUdpNativeAvailable(): boolean {
   return Boolean(NativeModules.UdpSockets);
@@ -21,6 +28,7 @@ type UdpState = {
   connected: boolean;
   packets: number;
   lastPacketAt: number | null;
+  hint: string | null;
   error: string | null;
 };
 
@@ -64,6 +72,7 @@ export function useUdpTelemetry({ port, enabled, onTelemetryPatch }: UseUdpTelem
     connected: false,
     packets: 0,
     lastPacketAt: null,
+    hint: null,
     error: null,
   });
 
@@ -76,6 +85,7 @@ export function useUdpTelemetry({ port, enabled, onTelemetryPatch }: UseUdpTelem
         connected: false,
         packets: 0,
         lastPacketAt: null,
+        hint: null,
         error: null,
       });
       return;
@@ -86,7 +96,8 @@ export function useUdpTelemetry({ port, enabled, onTelemetryPatch }: UseUdpTelem
         connected: false,
         packets: 0,
         lastPacketAt: null,
-        error: UDP_NATIVE_ERROR,
+        hint: nativeUnavailableHint(),
+        error: null,
       });
       return;
     }
@@ -99,10 +110,13 @@ export function useUdpTelemetry({ port, enabled, onTelemetryPatch }: UseUdpTelem
         connected: false,
         packets: 0,
         lastPacketAt: null,
-        error: UDP_NATIVE_ERROR,
+        hint: nativeUnavailableHint(),
+        error: null,
       });
       return;
     }
+
+    setState((prev) => ({ ...prev, hint: null, error: null }));
 
     const staleTimer = setInterval(() => {
       setState((prev) => {
@@ -125,6 +139,7 @@ export function useUdpTelemetry({ port, enabled, onTelemetryPatch }: UseUdpTelem
         connected: true,
         packets: prev.packets + 1,
         lastPacketAt: now,
+        hint: null,
         error: null,
       }));
 

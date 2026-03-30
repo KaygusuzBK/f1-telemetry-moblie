@@ -1,4 +1,11 @@
 import 'react-native-gesture-handler';
+import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
+
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false,
+});
+
 import './global.css';
 
 import { ComponentType, useEffect, useMemo, useState } from 'react';
@@ -76,6 +83,11 @@ function DashboardScreen() {
             {udpEnabled ? 'UDP kapat' : 'UDP aç'}
           </Text>
         </View>
+        {udpEnabled && udpState.hint ? (
+          <Text className="mt-2 text-center text-[11px] leading-4 text-zinc-500" numberOfLines={4}>
+            {udpState.hint}
+          </Text>
+        ) : null}
         {udpState.error ? (
           <Text className="mt-2 text-center text-[11px] leading-4 text-red-400/95" numberOfLines={3}>
             {udpState.error}

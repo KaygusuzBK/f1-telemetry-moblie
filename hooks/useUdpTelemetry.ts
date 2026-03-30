@@ -10,6 +10,7 @@ type UdpState = {
   connected: boolean;
   packets: number;
   lastPacketAt: number | null;
+  hint: string | null;
   error: string | null;
 };
 
@@ -19,11 +20,12 @@ type UseUdpTelemetryOptions = {
   onTelemetryPatch: (patch: TelemetryPatch) => void;
 };
 
-export function useUdpTelemetry(_options: UseUdpTelemetryOptions): UdpState {
+export function useUdpTelemetry({ enabled }: UseUdpTelemetryOptions): UdpState {
   return {
     connected: false,
     packets: 0,
     lastPacketAt: null,
-    error: 'UDP listener is available on native builds only.',
+    hint: enabled ? 'UDP yalnızca Android veya iOS uygulamasında çalışır; web desteklenmez.' : null,
+    error: null,
   };
 }
