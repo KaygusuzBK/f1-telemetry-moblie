@@ -7,18 +7,18 @@
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "run:android": "expo run:android",
-    "ios": "expo start --ios",
+    "ios": "expo run:ios",
     "run:ios": "expo run:ios",
     "prebuild": "expo prebuild",
     "web": "expo start --web",
     "lint": "expo lint",
-    "eas:login": "eas login",
-    "eas:whoami": "eas whoami",
-    "eas:build": "eas build",
-    "eas:build:android": "eas build --platform android",
-    "eas:build:ios": "eas build --platform ios",
-    "eas:submit": "eas submit",
-    "eas:update": "eas update"
+    "eas:login": "npx eas-cli@latest login",
+    "eas:whoami": "npx eas-cli@latest whoami",
+    "eas:build": "npx eas-cli@latest build",
+    "eas:build:android": "npx eas-cli@latest build --platform android",
+    "eas:build:ios": "npx eas-cli@latest build --platform ios",
+    "eas:submit": "npx eas-cli@latest submit",
+    "eas:update": "npx eas-cli@latest update"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -56,10 +56,16 @@
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
-    "eas-cli": "^18.4.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
     "typescript": "~5.9.2"
   },
-  "private": true
+  "private": true,
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": ["react-native-udp"]
+      }
+    }
+  }
 }
