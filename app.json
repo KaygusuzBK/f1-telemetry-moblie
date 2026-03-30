@@ -9,9 +9,14 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kaygusuzbk.f1telemetry",
+      "infoPlist": {
+        "NSLocalNetworkUsageDescription": "This app listens to F1 telemetry packets on your local network."
+      }
     },
     "android": {
+      "package": "com.kaygusuzbk.f1telemetry",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",

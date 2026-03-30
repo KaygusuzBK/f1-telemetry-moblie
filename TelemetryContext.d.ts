@@ -9,6 +9,7 @@ export type WidgetId =
   | 'trackMap';
 
 export type TelemetryState = {
+  sessionClock: string;
   speed: number;
   rpm: number;
   gear: number;
@@ -47,5 +48,8 @@ export function useTelemetry(): {
   layout: WidgetId[];
   setLayout: (layout: WidgetId[]) => void;
   moveWidget: (nextLayout: WidgetId[]) => void;
+  applyLiveTelemetryPatch: (patch: Partial<TelemetryState>) => void;
+  udpConnected: boolean;
+  setUdpConnected: (connected: boolean) => void;
   widgetCatalog: WidgetId[];
 };

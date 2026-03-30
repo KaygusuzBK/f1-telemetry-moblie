@@ -27,30 +27,44 @@ export function TelemetryGaugeWidget() {
   const sweep = sweepStart + progress * (sweepEnd - sweepStart);
 
   return (
-    <WidgetShell title="Telemetry Gauge" subtitle="RPM + Speed + Gear">
-      <View className="flex-row items-center justify-between gap-2">
-        <View className="h-36 w-7 items-center justify-end rounded-md border border-slate-900 bg-[#090909] p-1">
+    <WidgetShell title="Inputs" subtitle="RPM · speed · gear · pedals">
+      <View className="flex-row items-stretch justify-between gap-3">
+        <View className="h-40 w-8 items-center justify-end overflow-hidden rounded-xl border border-slate-800 bg-[#0c0c0c] p-1">
           <View className="w-full rounded-sm bg-red-500" style={{ height: `${telemetry.brake}%` }} />
-          <Text className="mt-1 text-[10px] text-red-400">BRK</Text>
+          <Text className="mt-1 text-[9px] font-semibold uppercase text-red-400/90">Brk</Text>
         </View>
 
-        <View className="relative h-40 flex-1 items-center justify-center">
+        <View className="relative min-h-[160px] flex-1 items-center justify-center">
           <Svg width={220} height={140} viewBox="0 0 220 140">
-            <Path d={arcPath(110, 110, 74, sweepStart, sweepEnd)} stroke="#1f2937" strokeWidth={12} fill="none" />
-            <Path d={arcPath(110, 110, 74, sweepStart, sweep)} stroke="#ef4444" strokeWidth={12} fill="none" />
-            <Circle cx={110} cy={110} r={6} fill="#f4f4f5" />
+            <Path
+              d={arcPath(110, 110, 74, sweepStart, sweepEnd)}
+              stroke="#27272a"
+              strokeWidth={11}
+              strokeLinecap="round"
+              fill="none"
+            />
+            <Path
+              d={arcPath(110, 110, 74, sweepStart, sweep)}
+              stroke="#dc2626"
+              strokeWidth={11}
+              strokeLinecap="round"
+              fill="none"
+            />
+            <Circle cx={110} cy={110} r={5} fill="#fafafa" />
           </Svg>
           <View className="absolute items-center">
-            <Text className="font-mono text-3xl font-bold text-zinc-100">{telemetry.speed}</Text>
-            <Text className="font-mono text-xs text-zinc-400">KM/H</Text>
-            <Text className="mt-1 font-mono text-2xl text-red-400">G{telemetry.gear}</Text>
-            <Text className="mt-1 font-mono text-[11px] text-zinc-500">{telemetry.rpm} RPM</Text>
+            <Text className="font-mono text-4xl font-bold tracking-tight text-zinc-50">{telemetry.speed}</Text>
+            <Text className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">km/h</Text>
+            <View className="mt-2 rounded-lg border border-red-900/40 bg-red-950/30 px-3 py-1">
+              <Text className="text-center font-mono text-2xl font-semibold text-red-400">G{telemetry.gear}</Text>
+            </View>
+            <Text className="mt-2 font-mono text-[11px] text-zinc-500">{telemetry.rpm.toLocaleString()} rpm</Text>
           </View>
         </View>
 
-        <View className="h-36 w-7 items-center justify-end rounded-md border border-slate-900 bg-[#090909] p-1">
-          <View className="w-full rounded-sm bg-green-500" style={{ height: `${telemetry.throttle}%` }} />
-          <Text className="mt-1 text-[10px] text-green-400">THR</Text>
+        <View className="h-40 w-8 items-center justify-end overflow-hidden rounded-xl border border-slate-800 bg-[#0c0c0c] p-1">
+          <View className="w-full rounded-sm bg-emerald-500" style={{ height: `${telemetry.throttle}%` }} />
+          <Text className="mt-1 text-[9px] font-semibold uppercase text-emerald-400/90">Thr</Text>
         </View>
       </View>
     </WidgetShell>

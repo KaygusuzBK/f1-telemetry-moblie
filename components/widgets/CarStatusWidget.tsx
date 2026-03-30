@@ -4,15 +4,18 @@ import { WidgetShell } from '@/components/widgets/WidgetShell';
 
 function TireCard({ label, psi, temp, wear }: { label: string; psi: number; temp: number; wear: number }) {
   return (
-    <View className="w-[47%] rounded-lg border border-slate-900 bg-[#090909] p-1.5">
-      <Text className="text-[10px] text-zinc-500">{label}</Text>
-      <Text className="font-mono text-[11px] text-zinc-100" numberOfLines={1}>
+    <View className="w-[47%] rounded-xl border border-slate-800 bg-[#0c0c0c] p-2.5">
+      <Text className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">{label}</Text>
+      <Text className="mt-1 font-mono text-[11px] text-zinc-200" numberOfLines={1}>
         {psi.toFixed(1)} PSI
       </Text>
-      <Text className="font-mono text-[11px] text-orange-300" numberOfLines={1}>
-        {temp}C
+      <Text className="font-mono text-[11px] text-amber-300/95" numberOfLines={1}>
+        {temp}°C
       </Text>
-      <Text className="font-mono text-[11px] text-red-300" numberOfLines={1}>
+      <View className="mt-1.5 h-1 overflow-hidden rounded-full bg-zinc-800">
+        <View className="h-full rounded-full bg-red-600/80" style={{ width: `${wear}%` }} />
+      </View>
+      <Text className="mt-1 font-mono text-[10px] text-zinc-500" numberOfLines={1}>
         {wear}% wear
       </Text>
     </View>
@@ -23,27 +26,25 @@ export function CarStatusWidget() {
   const { telemetry } = useTelemetry();
 
   return (
-    <WidgetShell title="Car Status" subtitle="Damage + Tires">
+    <WidgetShell title="Car status" subtitle="Damage · tyres">
       <View className="gap-3">
-        <View className="relative h-36 rounded-xl border border-slate-900 bg-[#090909]">
-          <View className="absolute left-1/2 top-4 h-24 w-16 -translate-x-1/2 rounded-lg border border-slate-800 bg-zinc-800/30" />
-          <View className="absolute left-1/2 top-2 h-2 w-24 -translate-x-1/2 rounded-md bg-zinc-700/70" />
-          <View className="absolute left-1/2 bottom-2 h-2 w-20 -translate-x-1/2 rounded-md bg-zinc-700/70" />
-
-          <View className="absolute left-2 top-4 h-8 w-4 rounded-sm bg-zinc-700" />
-          <View className="absolute right-2 top-4 h-8 w-4 rounded-sm bg-zinc-700" />
-          <View className="absolute left-2 bottom-4 h-8 w-4 rounded-sm bg-zinc-700" />
-          <View className="absolute right-2 bottom-4 h-8 w-4 rounded-sm bg-zinc-700" />
-
-          <Text className="absolute left-2 top-2 text-[10px] text-red-300">
-            ENG {telemetry.damage.engine}%
-          </Text>
-          <Text className="absolute right-2 top-2 text-[10px] text-red-300">
-            FW {telemetry.damage.frontWing}%
-          </Text>
-          <Text className="absolute bottom-2 right-2 text-[10px] text-red-300">
-            RW {telemetry.damage.rearWing}%
-          </Text>
+        <View className="relative h-36 overflow-hidden rounded-2xl border border-slate-800 bg-[#0c0c0c]">
+          <View className="absolute inset-0 opacity-30">
+            <View className="absolute left-1/2 top-6 h-20 w-14 -translate-x-1/2 rounded-lg border border-zinc-700 bg-zinc-800/40" />
+            <View className="absolute left-1/2 top-3 h-2 w-20 -translate-x-1/2 rounded-md bg-zinc-700/80" />
+            <View className="absolute left-1/2 bottom-2 h-2 w-16 -translate-x-1/2 rounded-md bg-zinc-700/80" />
+            <View className="absolute left-3 top-1/2 h-8 w-3 -translate-y-1/2 rounded-sm bg-zinc-700" />
+            <View className="absolute right-3 top-1/2 h-8 w-3 -translate-y-1/2 rounded-sm bg-zinc-700" />
+          </View>
+          <View className="absolute left-2 top-2 rounded bg-black/40 px-1.5 py-0.5">
+            <Text className="text-[10px] font-mono text-red-300/95">ENG {telemetry.damage.engine}%</Text>
+          </View>
+          <View className="absolute right-2 top-2 rounded bg-black/40 px-1.5 py-0.5">
+            <Text className="text-[10px] font-mono text-red-300/95">FW {telemetry.damage.frontWing}%</Text>
+          </View>
+          <View className="absolute bottom-2 right-2 rounded bg-black/40 px-1.5 py-0.5">
+            <Text className="text-[10px] font-mono text-red-300/95">RW {telemetry.damage.rearWing}%</Text>
+          </View>
         </View>
 
         <View className="flex-row flex-wrap justify-between gap-y-2">
